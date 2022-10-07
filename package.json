@@ -1,0 +1,25 @@
+{
+  "name": "proyect-mern-1",
+  "version": "1.0.0",
+  "description": "proyect mern",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server/index.js"
+  },
+  "author": "leonardo",
+  "license": "ISC",
+  "dependencies": {
+    "@sinclair/typebox": "^0.24.44",
+    "ajv": "^8.11.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^2.1.1",
+    "cloudinary": "^1.32.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
