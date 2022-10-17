@@ -10,6 +10,10 @@ const tasksSchema = new Schema({
     type: String,
     required: true,
   },
+  image: {
+    public_id: String,
+    url: String,
+  },
 });
 
 const TasksModel = model("tasks", tasksSchema);
