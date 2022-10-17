@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import helpHTTP from "../helpers/requestAPI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePosts } from "../../context/PostContext";
+import { useEffect } from "react";
 
 const FormPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  // console.log(id);
+  const { createPost, updatePost, getPost } = usePosts();
+  const [post, setPost] = useState({
+    title: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch(`http://localhost:4000/tasks/${id}`),
+        res = await data.json();
+      setPost({ title: res.title, description: res.description });
+
+      // console.log(res)
+    })();
+  }, []);
+
   return (
     <div>
       <h2>Generar POST</h2>
       <Formik
-        initialValues={{ title: "", description: "" }}
+        initialValues={post}
+        enableReinitialize
         validate={(values) => {
           const errors = {};
           if (!values.title) {
@@ -22,8 +42,12 @@ const FormPage = () => {
           return errors;
         }}
         onSubmit={async (values, actions) => {
-          console.log(values);
-          await helpHTTP().post(values);
+          if (id) {
+            updatePost(id, values);
+          } else {
+            createPost(values);
+          }
+
           actions.resetForm();
           navigate("/");
         }}

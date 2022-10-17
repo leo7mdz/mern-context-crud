@@ -19,7 +19,7 @@ const helpHTTP = () => {
 
   const post = (post) => {
     console.log(post);
-    requestAPI(URL, {
+    return requestAPI(URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const helpHTTP = () => {
   };
 
   const put = (id, newData) => {
-    requestAPI(`${URL}/${id}`, {
+    return requestAPI(`${URL}/${id}`, {
       method: "PUT",
       body: JSON.stringify(newData),
       headers: {
@@ -39,7 +39,7 @@ const helpHTTP = () => {
   };
 
   const del = (id) => {
-    requestAPI(`${URL}/${id}`, {
+    return requestAPI(`${URL}/${id}`, {
       method: "DELETE",
     });
   };

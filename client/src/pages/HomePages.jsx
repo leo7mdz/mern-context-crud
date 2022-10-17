@@ -1,29 +1,27 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { usePosts } from "../../context/PostContext";
 import Card from "../components/Card";
-import helpHTTP from "../helpers/requestAPI";
 
 const HomePages = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const data = await helpHTTP().get();
-      console.log(data);
-      setPosts(data);
-    })();
-  }, []);
+  const { posts } = usePosts();
+
+  if (!posts) {
+    return <p>NO HAY POSTS</p>;
+  }
 
   return (
-    <div>
-      <h2>Publicaciones</h2>
-      {posts.map((post) => (
-        <Card
-          key={post._id}
-          title={post.title}
-          description={post.description}
-        />
-      ))}
+    <div className="container-lg bg-secondary">
+      <div className="row">
+        <h2 className="text-center text-white">Publicaciones</h2>
+        {posts.map((post) => (
+          <Card
+            key={post._id}
+            id={post._id}
+            title={post.title}
+            description={post.description}
+          />
+        ))}
+      </div>
     </div>
   );
 };
