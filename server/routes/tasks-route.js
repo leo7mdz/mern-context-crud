@@ -12,9 +12,9 @@ const tasksRouter = Router();
 tasksRouter.get("/", getTasksController);
 tasksRouter.get("/:id", getTaskController);
 
-tasksRouter.post("/", tasksPostValidate, postTasksController);
+tasksRouter.post("/", postTasksController);
 
-tasksRouter.put("/:id", tasksPutValidate, putTasksController);
+tasksRouter.put("/:id", putTasksController);
 
 tasksRouter.delete("/:id", deleteTasksController);
 
