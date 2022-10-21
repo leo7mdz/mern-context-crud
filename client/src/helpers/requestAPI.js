@@ -9,7 +9,7 @@ const helpHTTP = () => {
       console.log(data);
       return data;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -17,14 +17,14 @@ const helpHTTP = () => {
     return requestAPI(URL);
   };
 
-  const post = (post) => {
-    console.log(post);
-    return requestAPI(URL, {
+  const post = async (post) => {
+    let formData = new FormData();
+    for (let key in post) {
+      formData.append(key, post[key]);
+    }
+    return await requestAPI(URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(post),
+      body: formData,
     });
   };
 

@@ -1,28 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePosts } from "../../context/PostContext";
 import { useEffect } from "react";
 
 const FormPage = () => {
+  const { createPost, updatePost } = usePosts();
   const navigate = useNavigate();
-  const { id } = useParams();
-  // console.log(id);
-  const { createPost, updatePost, getPost } = usePosts();
   const [post, setPost] = useState({
     title: "",
     description: "",
+    image: null,
   });
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
-      const data = await fetch(`http://localhost:4000/tasks/${id}`),
-        res = await data.json();
-      setPost({ title: res.title, description: res.description });
+      if (id) {
+        const res = await fetch(`http://localhost:4000/tasks/${id}`),
+          data = await res.json();
 
-      // console.log(res)
+        setPost({ title: data.title, description: data.description });
+      }
     })();
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -47,22 +48,38 @@ const FormPage = () => {
           } else {
             createPost(values);
           }
+          console.log(values);
 
           actions.resetForm();
           navigate("/");
+          //console.log(values);
         }}
       >
-        {({ handleSubmit }) => (
+        {({ setFieldValue, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <Field type="text" name="title" placeholder="Title..." />
+            <Field
+              className="form-control mb-2"
+              type="text"
+              name="title"
+              placeholder="Title..."
+            />
             <ErrorMessage name="title" component="div" />
             <Field
+              className="form-control mb-2"
               type="text"
               name="description"
               placeholder="description..."
             />
             <ErrorMessage name="description" component="div" />
-            <button type="submit">Submit</button>
+            <input
+              className="form-control mb-2"
+              type="file"
+              name="image"
+              onChange={(e) => setFieldValue("image", e.target.files[0])}
+            />
+            <button className="btn btn-primary" type="submit">
+              Submit
+            </button>
           </Form>
         )}
       </Formik>

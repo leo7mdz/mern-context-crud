@@ -14,12 +14,7 @@ const HomePages = () => {
       <div className="row">
         <h2 className="text-center text-white">Publicaciones</h2>
         {posts.map((post) => (
-          <Card
-            key={post._id}
-            id={post._id}
-            title={post.title}
-            description={post.description}
-          />
+          <Card key={post._id} post={post} />
         ))}
       </div>
     </div>
